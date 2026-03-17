@@ -12,17 +12,23 @@ body {
   text-align: center;
   margin: 0;
   padding: 20px;
+  padding-bottom: 200px;
 }
 
 /* กล่องหลัก */
 .card {
   background: #ff6b6b;
-  width: 90%;
-  max-width: 400px;
+  width: 100%;
+  max-width: 500px;
   margin: auto;
   padding: 25px;
-  border-radius: 25px;
+  border-radius: 25px 25px 0 0;
   box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* input */
@@ -56,6 +62,7 @@ button:hover {
 ul {
   list-style: none;
   padding: 0;
+  padding-bottom: 150px;
   margin-top: 15px;
 }
 
