@@ -14,19 +14,26 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+
+                
+
+
+
              
              }
             body {
                 background-color: #ffd68a;
                 font-family: Arial;
+                font-size: xx-large;
+                font-style: italic;
                 text-align: center;
             }
             h1 {
-                color: rgb(243, 149, 255);
+                color: rgb(153, 0, 39);
             }
 
             p {
-                color: #e95757;
+                color: #ffffff;
             }
 
             img {
@@ -38,8 +45,9 @@
                 background: rgb(255, 255, 255);
                 color: rgb(226, 88, 253);
                 padding: 10px 20px;
-                border-radius: 220;
+                border-radius: 220px;
                 margin-top: 15px;
+                text-decoration: none;
             }
 
             .btn:hover {
@@ -49,14 +57,20 @@
 
         </style>
     </head>
+
+
+
+
     <body>
         <div class="card"> 
-        <h1>Marisa </h1>
+        <h1>Marisa</h1>
         <p>ฉันกำลังเริ่มต้นเส้นทาง Full Stack Developer</p>
         
-        <h2>เกี่ยวกับฉัน</h2>
+        <h4>เกี่ยวกับฉัน</h4>
         <p>ตอนนี้กำลังฝึกเขียน HTML วันแรก</p>
         </div>
+        
+
         
         <br>
         <br>
@@ -68,10 +82,92 @@
         <br><br><br>
          
         <div class="card"> 
+
+            <button id="myBtn">กดฉัน</button>
+            <p id="demo">สวัสดี</p>
            
-            <a href="https://google.com" class="btn">ไปที่ Google</a> </div>
+            <a href="https://google.com" class="btn">ไปที่ Google</a> 
         
         
+           
+           
+           
+           
+           
+           
+           <script>
+                let isChanged = false;
+
+            document.getElementById("myBtn").addEventListener("click", function() 
+            {
+            
+                let text = document.getElementById("demo");
+                
+                if (isChanged) 
+            {
+                text.innerText = "สวัสดี";
+            }
+
+                else
+            {
+                text.innerText = "ฉันเริ่มเขียน JavaScript แล้ว";
+            }
+            
+                isChanged = !isChanged; 
+            });
+            
+            
+            
+function addNote() {
+
+  let input = document.getElementById("noteInput");
+  let text = input.value;
+
+  let li = document.createElement("li");
+  li.innerText = text;
+
+  let delBtn = document.createElement("button");
+  delBtn.innerText = "ลบ";
+  
+  delBtn.onclick = function() {
+    li.remove();
+  };
+
+  li.appendChild(delBtn);
+
+  document.getElementById("noteList").appendChild(li);
+
+  input.value = "";
+}
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            </script>
+
+            
+            <br> <br> 
+
+            <input id ="noteInput" placeholder="พิมพ์โน๊ต">
+            <br>
+            <button onclick="addNote()"> เพิ่มโน๊ต </button>
+            
+            <ul id="noteList"></ul>
+
+
+
+
+        </div>
+        
+
+
+
+            
     </body>
 </html>
 
