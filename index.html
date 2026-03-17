@@ -142,17 +142,35 @@ function addNote() {
   input.value = "";
 }
 
+
+
+
 // ✅ โหลด (ตอนเพิ่ม)
 db.ref("notes").on("child_added", function(snapshot) {
   let data = snapshot.val();
   let key = snapshot.key;
 
   let li = document.createElement("li");
-  li.setAttribute("data-key", key); // จำ id
+  li.setAttribute("data-key", key);
 
   let span = document.createElement("span");
   span.innerText = data.text;
 
+  // ✅ ปุ่มแก้ไข
+  let editBtn = document.createElement("button");
+  editBtn.innerText = "แก้ไข";
+
+  editBtn.onclick = function() {
+    let newText = prompt("แก้ไขข้อความ:", data.text);
+
+    if (newText !== null && newText.trim() !== "") {
+      db.ref("notes/" + key).update({
+        text: newText
+      });
+    }
+  };
+
+  // ❌ ปุ่มลบ
   let delBtn = document.createElement("button");
   delBtn.innerText = "ลบ";
 
@@ -161,11 +179,12 @@ db.ref("notes").on("child_added", function(snapshot) {
   };
 
   li.appendChild(span);
+  li.appendChild(editBtn);
   li.appendChild(delBtn);
   document.getElementById("noteList").appendChild(li);
 });
 
-// ✅ ลบแบบ realtime
+// ✅ realtime ลบ
 db.ref("notes").on("child_removed", function(snapshot) {
   let key = snapshot.key;
 
@@ -174,6 +193,20 @@ db.ref("notes").on("child_removed", function(snapshot) {
   items.forEach(function(li) {
     if (li.getAttribute("data-key") === key) {
       li.remove();
+    }
+  });
+});
+
+// ✅ realtime แก้ไข
+db.ref("notes").on("child_changed", function(snapshot) {
+  let key = snapshot.key;
+  let data = snapshot.val();
+
+  let items = document.querySelectorAll("li");
+
+  items.forEach(function(li) {
+    if (li.getAttribute("data-key") === key) {
+      li.querySelector("span").innerText = data.text;
     }
   });
 });
