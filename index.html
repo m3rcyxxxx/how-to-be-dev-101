@@ -1,158 +1,177 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Ai Chonky </title>
-        <style>
-            .card {
-                background-color: #e95757;
-                width: 400px;
-                margin: 40px auto;
-                padding: 50px;
-                border-radius: 50px;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-                
-                display: flex;
-                flex-direction: column;
-                align-items: center;
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ai Chonky</title>
 
-                
-
-
-
-             
-             }
-            body {
-                background-color: #ffd68a;
-                font-family: Arial;
-                font-size: xx-large;
-                font-style: italic;
-                text-align: center;
-            }
-            h1 {
-                color: rgb(153, 0, 39);
-            }
-
-            p {
-                color: #ffffff;
-            }
-
-            img {
-                border-radius: 10px;
-            }
-            
-            .btn {
-                display: inline-block;
-                background: rgb(255, 255, 255);
-                color: rgb(226, 88, 253);
-                padding: 10px 20px;
-                border-radius: 220px;
-                margin-top: 15px;
-                text-decoration: none;
-            }
-
-            .btn:hover {
-                background: rgb(116, 255, 116);
-                padding: 20px 20px;
-            }
-
-        </style>
-    </head>
-
-
-
-
-    <body>
-        <div class="card"> 
-        <h1>Marisa</h1>
-        <p>ฉันกำลังเริ่มต้นเส้นทาง Full Stack Developer</p>
-        
-        <h4>เกี่ยวกับฉัน</h4>
-        <p>ตอนนี้กำลังฝึกเขียน HTML วันแรก</p>
-        </div>
-        
-
-        
-        <br>
-        <br>
-        
-        <p><img src="https://picsum.photos/200" alt="my image"></p>
-        
-        
-        <img src="im hurt.jpeg" alt="my photo" width="200">
-        <br><br><br>
-         
-        <div class="card"> 
-
-            <button id="myBtn">กดฉัน</button>
-            <p id="demo">สวัสดี</p>
-           
-            <a href="https://google.com" class="btn">ไปที่ Google</a> 
-        
-        
-           
-           
-           
-            <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyCBQx-uKobBB3Dla2Un4q_u9hXOoChNpnk",
-  authDomain: "m3rcyxxxx.firebaseapp.com",
-  databaseURL: "https://m3rcyxxxx-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "m3rcyxxxx",
-};
-
-firebase.initializeApp(firebaseConfig);
-var db = firebase.database();
-
-function addNote() {
-  let text = document.getElementById("noteInput").value;
-
-  db.ref("notes").push({
-    text: text
-  });
-
-  document.getElementById("noteInput").value = "";
+  <style>
+   
+body {
+  background: linear-gradient(135deg, #ffd68a, #ff9a9e);
+  font-family: 'Kanit', sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
 }
 
-db.ref("notes").on("child_added", function(snapshot) {
-  let data = snapshot.val();
-  let key = snapshot.key;
+/* กล่องหลัก */
+.card {
+  background: #ff6b6b;
+  width: 90%;
+  max-width: 400px;
+  margin: auto;
+  padding: 25px;
+  border-radius: 25px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
 
-  let li = document.createElement("li");
-  li.innerText = data.text;
+/* input */
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 15px;
+  border: none;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
 
-  let delBtn = document.createElement("button");
-  delBtn.innerText = "ลบ";
+/* ปุ่มเพิ่ม */
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 15px;
+  border: none;
+  background: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
 
-  delBtn.onclick = function() {
-    db.ref("notes/" + key).remove();
-    li.remove();
-  };
+button:hover {
+  background: #6fff8f;
+  transform: scale(1.03);
+}
 
-  li.appendChild(delBtn);
-  document.getElementById("noteList").appendChild(li);
-});
-</script>
+/* list */
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
 
-            
-            <br> <br> 
+/* กล่องโน๊ต */
+li {
+  background: white;
+  color: black;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 15px;
 
-            <input id ="noteInput" placeholder="พิมพ์โน๊ต">
-            <br>
-            <button onclick="addNote()"> เพิ่มโน๊ต </button>
-            
-            <ul id="noteList"></ul>
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+/* ข้อความ */
+li span {
+  flex: 1;
+  text-align: left;
+}
 
+/* ปุ่มลบ (เล็กลง + ดูดีขึ้น) */
+li button {
+  width: auto;
+  padding: 6px 12px;
+  background: #ff4d4d;
+  color: white;
+  border-radius: 10px;
+  margin-left: 10px;
+}
 
+li button:hover {
+  background: #cc0000;
+}
 
-        </div>
-        
+/* รูป */
+img {
+  width: 120px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
 
+  </style>
+</head>
 
+<body>
 
-            
-    </body>
+  <img src="im hurt.jpeg" width="200">
+  <br><br>
+
+  <div class="card">
+    <input id="noteInput" placeholder="พิมพ์โน๊ต">
+    <button onclick="addNote()">เพิ่มโน๊ต</button>
+    <ul id="noteList"></ul>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCBQx-uKobBB3Dla2Un4q_u9hXOoChNpnk",
+      authDomain: "m3rcyxxxx.firebaseapp.com",
+      databaseURL: "https://m3rcyxxxx-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "m3rcyxxxx",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.database();
+
+    // ✅ ฟังก์ชันเดียวพอ (ไม่ซ้ำ)
+    function addNote() {
+      let input = document.getElementById("noteInput");
+      let text = input.value.trim();
+
+      if (text === "") return;
+
+      db.ref("notes").push({
+        text: text
+      });
+
+      input.value = "";
+    }
+
+    // ✅ โหลดข้อมูล
+    db.ref("notes").on("child_added", function(snapshot) {
+      let data = snapshot.val();
+      let key = snapshot.key;
+
+      
+        let li = document.createElement("li");
+
+        let span = document.createElement("span");
+        span.innerText = data.text;
+
+      let delBtn = document.createElement("button");
+      delBtn.innerText = "ลบ";
+
+      delBtn.onclick = function() {
+        db.ref("notes/" + key).remove();
+        li.remove();
+      };
+      li.appendChild(span);
+      li.appendChild(delBtn);
+      document.getElementById("noteList").appendChild(li);
+    });
+
+    // ✅ Enter กดได้แน่นอน
+    document.getElementById("noteInput").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        addNote();
+      }
+    });
+  </script>
+
+</body>
 </html>
