@@ -171,45 +171,50 @@ db.ref("notes").on("child_added", function(snapshot) {
   // 🔥 ตอนกด "แก้ไข"
   editBtn.onclick = function() {
 
-    // 1. สร้าง input
-    let input = document.createElement("input");
-    input.value = span.innerText;
+  let input = document.createElement("input");
+  input.value = span.innerText;
 
-    // 2. สร้างปุ่มบันทึก
-    let saveBtn = document.createElement("button");
-    saveBtn.innerText = "บันทึก";
+  let saveBtn = document.createElement("button");
+  saveBtn.innerText = "บันทึก";
 
-    // 3. เปลี่ยน span → input
-    li.replaceChild(input, span);
+  // เปลี่ยน UI
+  li.replaceChild(input, span);
+  li.replaceChild(saveBtn, editBtn);
 
-    // 4. เปลี่ยนปุ่มแก้ไข → บันทึก
-    li.replaceChild(saveBtn, editBtn);
+  // 🔥 เปิดคีย์บอร์ด
+  input.focus();
 
-    input.focus();
-
-    // 🔥 กดบันทึก
-    saveBtn.onclick = function() {
-      let newText = input.value.trim();
-
-      if (newText !== "") {
-        db.ref("notes/" + key).update({
-          text: newText
-        });
-      }
-
-      // เปลี่ยนกลับ
-      span.innerText = newText;
-      li.replaceChild(span, input);
-      li.replaceChild(editBtn, saveBtn);
-    };
-
-    // 🔥 กด Enter = บันทึก
-    input.addEventListener("keydown", function(e) {
-      if (e.key === "Enter") {
-        saveBtn.click();
-      }
+  // 🔥 เลื่อนจอ (ต้องอยู่นอก save!)
+  setTimeout(() => {
+    input.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
     });
+  }, 300);
+
+  // ✅ กดบันทึก
+  saveBtn.onclick = function() {
+    let newText = input.value.trim();
+
+    if (newText !== "") {
+      db.ref("notes/" + key).update({
+        text: newText
+      });
+    }
+
+    // เปลี่ยนกลับ
+    span.innerText = newText;
+    li.replaceChild(span, input);
+    li.replaceChild(editBtn, saveBtn);
   };
+
+  // ✅ Enter = บันทึก
+  input.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      saveBtn.click();
+    }
+  });
+};
 
   li.appendChild(span);
   li.appendChild(editBtn);
