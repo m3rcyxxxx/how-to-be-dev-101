@@ -4,6 +4,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ai Chonky</title>
 
+   <!-- 🔥 Dark mode โหลดก่อน -->
+  
+  <script>
+    if (localStorage.getItem("mode") === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
+ <br>
+  <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
+  <br>
+
   <style>
    
 body {
@@ -12,7 +23,7 @@ body {
   text-align: center;
   margin: 0;
   padding: 20px;
-  padding-bottom: 200px;
+  padding-bottom: 300px;
 }
 
 /* กล่องหลัก */
@@ -25,11 +36,20 @@ body {
   border-radius: 25px 25px 0 0;
   box-shadow: 0 15px 30px rgba(0,0,0,0.2);
 
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+ 
+ 
 }
+
+
+
+li {
+  transition: 0.2s;
+}
+
+li:active {
+  transform: scale(0.97);
+}
+
 
 /* input */
 input {
@@ -99,6 +119,8 @@ li button:hover {
   background: #cc0000;
 }
 
+
+
 /* รูป */
 img {
   width: 150px;
@@ -106,8 +128,41 @@ img {
   margin-bottom: 15px;
 }
 
+
+html.dark body {
+  background: #121212;
+  color: white;
+}
+
+html.dark .card {
+  background: #1e1e1e;
+}
+
+html.dark li {
+  background: #2a2a2a;
+  color: white;
+}
+
+html.dark input {
+  background: #333;
+  color: white;
+}
+
+html.dark button {
+  background: #444;
+  color: white;
+}
+
+
+
+
   </style>
-</head>
+</head> 
+
+
+
+
+<br><br>
 
 <body>
 
@@ -115,8 +170,8 @@ img {
   <br><br>
 
   <div class="card">
-    <input id="noteInput" placeholder="พิมพ์โน๊ต">
-    <button onclick="addNote()">เพิ่มโน๊ต</button>
+    <input id="noteInput" placeholder="Type message here">
+    <button onclick="addNote()">Add note</button>
     <ul id="noteList"></ul>
   </div>
 
@@ -125,6 +180,7 @@ img {
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
   <script>
+    
     const firebaseConfig = {
       apiKey: "AIzaSyCBQx-uKobBB3Dla2Un4q_u9hXOoChNpnk",
       authDomain: "m3rcyxxxx.firebaseapp.com",
@@ -132,10 +188,14 @@ img {
       projectId: "m3rcyxxxx",
     };
 
-    firebase.initializeApp(firebaseConfig);
+     firebase.initializeApp(firebaseConfig);
     var db = firebase.database();
+    
 
-    // ✅ เพิ่มโน๊ต
+  
+  // function MAIN
+ 
+  // function เพิ่มโน๊ต
 function addNote() {
   let input = document.getElementById("noteInput");
   let text = input.value.trim();
@@ -148,10 +208,25 @@ function addNote() {
 
   input.value = "";
 }
+    
+// function DarkMode
+function toggleDarkMode() {
+  document.documentElement.classList.toggle("dark");
+
+  if (document.documentElement.classList.contains("dark")) {
+    localStorage.setItem("mode", "dark");
+  } else {
+    localStorage.setItem("mode", "light");
+  }
+}
+
+   
+
+   
 
 
 
-
+// realtime🔥 
 // ✅ โหลด (ตอนเพิ่ม)
 db.ref("notes").on("child_added", function(snapshot) {
   let data = snapshot.val();
@@ -165,15 +240,18 @@ db.ref("notes").on("child_added", function(snapshot) {
 
   // ✅ ปุ่มแก้ไข
   let editBtn = document.createElement("button");
-  editBtn.innerText = "แก้ไข";
+  editBtn.innerText = "Edit";
 
   // ✅ ปุ่มลบ
   let delBtn = document.createElement("button");
-  delBtn.innerText = "ลบ";
+  delBtn.innerText = "Delete";
 
   delBtn.onclick = function() {
+    if (confirm("Confirm ?")) {
     db.ref("notes/" + key).remove();
-  };
+ } 
+};
+
 
   // 🔥 ตอนกด "แก้ไข"
   editBtn.onclick = function() {
@@ -188,10 +266,10 @@ db.ref("notes").on("child_added", function(snapshot) {
   li.replaceChild(input, span);
   li.replaceChild(saveBtn, editBtn);
 
-  // 🔥 เปิดคีย์บอร์ด
+  // โฟกัส
   input.focus();
 
-  // 🔥 เลื่อนจอ (ต้องอยู่นอก save!)
+  // 🔥 เลื่อนให้ไม่โดนคีย์บอร์ด
   setTimeout(() => {
     input.scrollIntoView({
       behavior: "smooth",
@@ -199,7 +277,7 @@ db.ref("notes").on("child_added", function(snapshot) {
     });
   }, 300);
 
-  // ✅ กดบันทึก
+  // กดบันทึก
   saveBtn.onclick = function() {
     let newText = input.value.trim();
 
@@ -209,13 +287,12 @@ db.ref("notes").on("child_added", function(snapshot) {
       });
     }
 
-    // เปลี่ยนกลับ
     span.innerText = newText;
     li.replaceChild(span, input);
     li.replaceChild(editBtn, saveBtn);
   };
 
-  // ✅ Enter = บันทึก
+  // Enter = บันทึก
   input.addEventListener("keydown", function(e) {
     if (e.key === "Enter") {
       saveBtn.click();
@@ -272,7 +349,18 @@ document.getElementById("noteInput").addEventListener("keydown", function(event)
     }
   }
 });
+
+
+
+
+
+
+input.focus();
+
+
+
 </script> 
+
 
 </body>
 </html>
