@@ -160,17 +160,7 @@ db.ref("notes").on("child_added", function(snapshot) {
   let editBtn = document.createElement("button");
   editBtn.innerText = "แก้ไข";
 
-  editBtn.onclick = function() {
-    let newText = prompt("แก้ไขข้อความ:", data.text);
-
-    if (newText !== null && newText.trim() !== "") {
-      db.ref("notes/" + key).update({
-        text: newText
-      });
-    }
-  };
-
-  // ❌ ปุ่มลบ
+  // ✅ ปุ่มลบ
   let delBtn = document.createElement("button");
   delBtn.innerText = "ลบ";
 
@@ -178,11 +168,56 @@ db.ref("notes").on("child_added", function(snapshot) {
     db.ref("notes/" + key).remove();
   };
 
+  // 🔥 ตอนกด "แก้ไข"
+  editBtn.onclick = function() {
+
+    // 1. สร้าง input
+    let input = document.createElement("input");
+    input.value = span.innerText;
+
+    // 2. สร้างปุ่มบันทึก
+    let saveBtn = document.createElement("button");
+    saveBtn.innerText = "บันทึก";
+
+    // 3. เปลี่ยน span → input
+    li.replaceChild(input, span);
+
+    // 4. เปลี่ยนปุ่มแก้ไข → บันทึก
+    li.replaceChild(saveBtn, editBtn);
+
+    input.focus();
+
+    // 🔥 กดบันทึก
+    saveBtn.onclick = function() {
+      let newText = input.value.trim();
+
+      if (newText !== "") {
+        db.ref("notes/" + key).update({
+          text: newText
+        });
+      }
+
+      // เปลี่ยนกลับ
+      span.innerText = newText;
+      li.replaceChild(span, input);
+      li.replaceChild(editBtn, saveBtn);
+    };
+
+    // 🔥 กด Enter = บันทึก
+    input.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+        saveBtn.click();
+      }
+    });
+  };
+
   li.appendChild(span);
   li.appendChild(editBtn);
   li.appendChild(delBtn);
+
   document.getElementById("noteList").appendChild(li);
 });
+
 
 // ✅ realtime ลบ
 db.ref("notes").on("child_removed", function(snapshot) {
