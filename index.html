@@ -94,8 +94,8 @@ li button:hover {
 
 /* รูป */
 img {
-  width: 120px;
-  border-radius: 50%;
+  width: 150px;
+  border-radius: 40%;
   margin-bottom: 15px;
 }
 
@@ -167,10 +167,18 @@ img {
 
     // ✅ Enter กดได้แน่นอน
     document.getElementById("noteInput").addEventListener("keydown", function(event) {
-      if (event.key === "Enter") {
-        addNote();
-      }
-    });
+  if (event.key === "Enter") {
+    event.preventDefault(); // กันขึ้นบรรทัดใหม่
+
+    let input = this;
+    let text = input.value.trim();
+
+    if (text !== "") {
+      addNote();
+      input.blur(); // 🔥 ทำให้คีย์บอร์ดมือถือหาย
+    }
+  }
+});
   </script>
 
 </body>
